@@ -2,4 +2,10 @@
 export default defineNuxtConfig({
   devtools: { enabled: true },
   compatibilityDate: '2024-04-03',
+  modules: ['@nuxtjs/tailwindcss', '@pinia/nuxt', 'pinia-plugin-persistedstate/nuxt'],
+  tailwindcss: {
+    config: {
+      darkMode: 'class',
+    },
+  },
 })
