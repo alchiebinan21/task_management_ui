@@ -21,7 +21,7 @@
         </p>
       </div>
     </div>
-    <div class="shrink-0 px-4 pb-8 pt-4">
+    <div class="px-4 pb-8 pt-4 w-full max-w-4xl mx-auto">
       <CursorStyleInput
         typing-text="Welcome Visitor"
         placeholder="Welcome Visitor"

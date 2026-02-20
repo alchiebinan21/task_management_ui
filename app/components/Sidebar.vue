@@ -1,5 +1,5 @@
 <template>
-    <div class="hidden sm:block col-span-2" :class="[props.side === 'left' ? 'border-l' : 'border-r', borderColor, textColor]">
+    <div class="hidden sm:block" :class="[props.side === 'left' ? 'border-l' : 'border-r', borderColor, textColor]">
       <SideNav />
     </div>
 </template>

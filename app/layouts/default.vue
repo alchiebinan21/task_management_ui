@@ -2,16 +2,17 @@
   <div class="flex flex-col min-h-screen w-full" :class="backgroundColor">
     <!-- Left checkered panel -->
     <Navbar v-show="showNavbar" />
+    <button @click="toggleCheckeredSides" v-show="showCheckeredSides" class="">
+        <Icon name="mdi:chevron-left" />Test
+      </button>
     <div class="grid grid-cols-12 w-full min-h-0 flex-1">
-      <Sidebar side="right" v-show="showCheckeredSides" />
+      <Sidebar side="right" v-show="showCheckeredSides" :class="showCheckeredSides ? 'col-span-2' : 'col-span-12'"/>
       <main
+        :class="showCheckeredSides ? 'col-span-8' : 'col-span-12'"
         class="
-          col-span-full 
-          sm:col-span-8 
           flex-1 
           mx-auto 
           w-full 
-          max-w-4xl 
           px-4 
           py-8 
           sm:px-6 l
@@ -19,7 +20,7 @@
           rounded-xl">
         <slot />
       </main>
-      <Sidebar side="left" v-show="showCheckeredSides" />
+      <Sidebar side="left" v-show="showCheckeredSides" :class="showCheckeredSides ? 'col-span-2' : 'col-span-12'"/>
     </div>
     <TVEffect />
   </div>
@@ -27,7 +28,7 @@
 
 <script setup lang="ts">
 
-const { showNavbar, showCheckeredSides } = useLayout()
+const { showNavbar, showCheckeredSides, toggleCheckeredSides } = useLayout()
 const { backgroundColor } = useDarkMode()
 </script>
 
