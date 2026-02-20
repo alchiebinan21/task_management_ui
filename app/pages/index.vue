@@ -1,7 +1,8 @@
 <template>
   <div class="flex min-h-[calc(100vh-8rem)] flex-col mx-auto max-w-4xl text-slate-800 dark:text-slate-200">
     <div class="flex-1 space-y-6 px-4 pt-8 pb-4">
-      <Stack />
+      <Stack v-if="pageActive === 'stack'" :key="pageActive" />
+      <AboutMe v-if="pageActive === 'about'" :key="pageActive" />
       <div
         v-if="replyFullText"
         class="rounded-xl border border-slate-300 bg-slate-100 p-4 dark:border-slate-600 dark:bg-slate-800/80"
@@ -31,6 +32,10 @@
 </template>
 
 <script setup lang="ts">
+const { pageActive } = useNavigation()
+
+const { setPage } = useNavigation()
+
 const replyFullText = ref('')
 const replyDisplayed = ref('')
 const isReplyTyping = ref(false)

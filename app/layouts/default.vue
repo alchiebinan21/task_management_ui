@@ -22,6 +22,7 @@
       :class="[checkeredClass, { 'checkered-side--closed': !showCheckeredSides }]"
       aria-hidden="true"
     />
+    <TVEffect />
   </div>
 </template>
 
