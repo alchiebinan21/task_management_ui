@@ -1,6 +1,7 @@
 <template>
     <div class="flex flex-col gap-[50px]">
-        <div class="flex flex-row justify-center items-center gap-[50px]">
+        <span class="text-center text-2xl font-bold" :class="textColor">About the stack I use:</span>
+        <div class="flex flex-col md:flex-row justify-center items-center gap-[50px] w-full">
                 <div class="stack-item w-full text-center">
                     <a href="https://nuxt.com/" target="_blank">
                         <img src="/logos/logo-black.png" alt="Nuxt Js3  Logo" class="h-[50px] inline-block ease-in-out" 
@@ -19,12 +20,12 @@
                     </a>
                 </div>
         </div>
-        <div class="flex flex-row justify-center items-center gap-[50px]">
+        <div class="flex flex-col md:flex-row justify-center items-center gap-[50px] w-full">
             <div class="stack-item w-full flex flex-col items-center text-black transition duration-300 ease-in-out" :class="{ 'invert': isDark }"
                 >
                 <a href="https://modelcontextprotocol.io/" target="_blank">
                     <img src="/logos/mcp.svg" alt="MCP Logo" class="h-[100px] inline-block brightness-0" 
-                        :class="{ 'invert': isDark }" 
+                        :class="{ ' brightness-0': isDark }" 
                     />
                 </a>
                 <span class="block w-full text-md text-black text-center">Model Context Protocol</span>
@@ -42,7 +43,7 @@
                 </a>
             </div>
         </div>
-        <div class="flex flex-row justify-center items-center gap-[50px] w-full">
+        <div class="flex flex-col md:flex-row justify-center items-center gap-[50px] w-full">
             <div class="stack-item w-full text-center">
                 <a href="https://www.mysql.com/" target="_blank">
                     <img src="/logos/logo-mysql.svg" alt="MySQL Logo" class="h-[100px] inline-block" />
@@ -53,7 +54,7 @@
 </template>
 
 <script setup lang="ts">
-const { isDark } = useDarkMode()
+const { isDark, textColor } = useDarkMode()
 
 </script>
 
