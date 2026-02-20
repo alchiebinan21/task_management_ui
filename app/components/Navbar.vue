@@ -1,11 +1,11 @@
 <template>
   <nav :class="`border-b border-${borderColor}-200/60 backdrop-blur-sm transition-colors duration-300 ${backgroundColor}`">
-    <div class="mx-auto flex h-14 max-w-4xl items-center justify-between px-4 sm:px-6 lg:px-8">
+    <div @click="toggleCheckeredSides()" class="mx-auto flex h-14 max-w-4xl items-center justify-between px-4 sm:px-6 lg:px-8">
       <NuxtLink
         to="/"
         :class="`text-lg font-semibold text-${textColor}-700 transition-colors duration-300 ${textColor} `"
       >
-        Task Management
+        Welcome Visitor
       </NuxtLink>
       <div class="flex items-center gap-2">
         <DarkModeButton />
@@ -21,6 +21,7 @@
 </template>
 
 <script setup lang="ts">
+const { toggleCheckeredSides } = useLayout()
 
 const { backgroundColor, textColor, borderColor } = useDarkMode()
 
