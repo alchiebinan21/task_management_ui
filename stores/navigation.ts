@@ -2,7 +2,7 @@ import { defineStore } from 'pinia'
 
 export const useNavigationStore = defineStore('navigation', {
   state: () => ({
-    pageActive: ref<string>('home'),
+    pageActive: 'home',
   }),
   actions: {
     setPage(page: string) {

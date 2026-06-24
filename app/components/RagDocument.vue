@@ -66,54 +66,10 @@
       <p class="text-sm text-slate-600 dark:text-slate-300">
         {{ status.pages }} page(s) · {{ status.chunks }} chunk(s)
       </p>
-    </div>
-
-    <div
-      v-if="messages.length || loading"
-      class="max-h-80 space-y-3 overflow-y-auto rounded-xl border border-slate-300 bg-slate-50 p-4 dark:border-slate-600 dark:bg-slate-900/40"
-    >
-      <div
-        v-for="msg in messages"
-        :key="msg.id"
-        class="text-sm"
-        :class="msg.role === 'user' ? 'text-right' : 'text-left'"
-      >
-        <span
-          class="inline-block max-w-[90%] rounded-lg px-3 py-2"
-          :class="
-            msg.role === 'user'
-              ? 'bg-blue-600 text-white'
-              : 'bg-slate-200 text-slate-800 dark:bg-slate-700 dark:text-slate-100'
-          "
-        >
-          {{ msg.content }}
-        </span>
-      </div>
-      <p v-if="loading" class="text-sm text-slate-500 dark:text-slate-400">
-        Analyzing document…
+      <p class="mt-2 text-xs text-slate-500 dark:text-slate-400">
+        Use the chat box below to ask questions about this document.
       </p>
     </div>
-
-    <form
-      v-if="status.indexed"
-      class="flex gap-2"
-      @submit.prevent="onAsk"
-    >
-      <input
-        v-model="question"
-        type="text"
-        placeholder="Ask a question about the PDF…"
-        class="min-w-0 flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm outline-none focus:border-blue-500 dark:border-slate-600 dark:bg-slate-800"
-        :disabled="loading"
-      />
-      <button
-        type="submit"
-        class="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:opacity-50"
-        :disabled="loading || !question.trim()"
-      >
-        Ask
-      </button>
-    </form>
   </section>
 </template>
 
@@ -122,11 +78,8 @@ import { useRagStore } from '../../stores/rag'
 
 const { textColor } = useDarkMode()
 const ragStore = useRagStore()
-const { status, messages, uploading, loading, clearing, error } = storeToRefs(ragStore)
-const { fetchStatus, uploadPdf, askQuestion, clearIndex } = ragStore
-
-const fileInputRef = ref<HTMLInputElement | null>(null)
-const question = ref('')
+const { status, uploading, clearing, error } = storeToRefs(ragStore)
+const { fetchStatus, uploadPdf, clearIndex } = ragStore
 
 onMounted(() => {
   fetchStatus().catch(() => {})
@@ -149,17 +102,6 @@ function onFileSelect(event: Event) {
 
 function onDrop(event: DragEvent) {
   handleFile(event.dataTransfer?.files?.[0])
-}
-
-async function onAsk() {
-  if (!question.value.trim()) return
-  const q = question.value
-  question.value = ''
-  try {
-    await askQuestion(q)
-  } catch {
-    // error stored in ragStore
-  }
 }
 
 async function onClear() {

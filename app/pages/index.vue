@@ -1,102 +1,15 @@
 <template>
-  <div class="flex min-h-[calc(100vh-8rem)] flex-col mx-auto text-slate-800 dark:text-slate-200">
-    <div id="main-section" class="flex-1 space-y-6 px-4 pt-8 pb-4" :class="textColor">
-      <Stack v-if="showStack" />
-      <AboutMe v-if="showAbout" />
-      <Tasks v-if="showTasks" />
-      <RagDocument v-if="showRag" />
-      <div
-        v-if="replyFullText || chatStore.loading"
-        class="rounded-xl border border-slate-300 bg-slate-100 p-4 dark:border-slate-600 dark:bg-slate-800/80"
-      >
-        <p class="mb-1 text-xs font-medium text-slate-500 dark:text-slate-400">
-          Reply
-        </p>
-        <p class="min-h-[1.25rem] text-slate-800 dark:text-slate-200">
-          <template v-if="chatStore.loading && !replyDisplayed">
-            Sending…
-          </template>
-          <template v-else>
-            {{ replyDisplayed }}
-            <span
-              v-if="isReplyTyping"
-              class="reply-caret ml-0.5 inline-block h-4 w-0.5 align-middle bg-blue-500"
-            />
-          </template>
-        </p>
-      </div>
-    </div>
-    <div class="px-4 pb-8 pt-4 w-full max-w-4xl mx-auto">
-      <CursorStyleInput
-        typing-text="Welcome Visitor"
-        placeholder="Welcome Visitor"
-        @close-tab="() => {}"
-        @submit="onSubmit"
-      />
-    </div>
-  </div>
+  <PageWithChat>
+    <section class="space-y-4" :class="textColor">
+      <h1 class="text-2xl font-bold">Welcome</h1>
+      <p class="text-base leading-relaxed text-slate-600 dark:text-slate-300">
+        Use the navigation above to explore tasks, document AI, the tech stack, and project details.
+        Chat below to interact with the task agent.
+      </p>
+    </section>
+  </PageWithChat>
 </template>
 
 <script setup lang="ts">
-import { useChatStore } from '../../stores/chat'
-import { useLayout } from '../composables/useLayout'
-
 const { textColor } = useDarkMode()
-const { showStack, showAbout, showTasks, showRag } = useLayout()
-const chatStore = useChatStore()
-
-const replyFullText = ref('')
-const replyDisplayed = ref('')
-const isReplyTyping = ref(false)
-
-const REPLY_SPEED_MS = 40
-
-let replyInterval: ReturnType<typeof setInterval> | null = null
-
-function startReplyTyping(text: string) {
-  replyFullText.value = text
-  replyDisplayed.value = ''
-  isReplyTyping.value = true
-  let index = 0
-  replyInterval = setInterval(() => {
-    if (index < text.length) {
-      replyDisplayed.value += text[index]
-      index++
-    } else {
-      if (replyInterval) clearInterval(replyInterval)
-      replyInterval = null
-      isReplyTyping.value = false
-    }
-  }, REPLY_SPEED_MS)
-}
-
-async function onSubmit(value: string) {
-  if (!value.trim()) return
-  try {
-    const assistantMsg = await chatStore.sendMessage(value.trim())
-    if (assistantMsg) {
-      startReplyTyping(assistantMsg.content)
-    }
-  } catch {
-    const last = chatStore.lastMessage
-    if (last) startReplyTyping(last.content)
-  }
-}
-
-onUnmounted(() => {
-  if (replyInterval) clearInterval(replyInterval)
-})
 </script>
-
-
-<style scoped>
-.reply-caret {
-  animation: blink 1s step-end infinite;
-}
-
-@keyframes blink {
-  50% {
-    opacity: 0;
-  }
-}
-</style>
