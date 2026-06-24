@@ -4,7 +4,7 @@
       <slot />
       <div
         v-if="showChat && (replyFullText || isReplyLoading)"
-        class="rounded-xl border border-slate-300 bg-slate-100 p-4 dark:border-slate-600 dark:bg-slate-800/80"
+        class="rounded-xl border border-slate-300 bg-white p-4 dark:border-slate-600 dark:bg-slate-800/80"
       >
         <p class="mb-1 text-xs font-medium text-slate-500 dark:text-slate-400">
           Reply

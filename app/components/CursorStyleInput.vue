@@ -4,7 +4,7 @@
       'overflow-hidden rounded-xl border transition-colors duration-300',
       isDark
         ? 'border-slate-600/80 bg-slate-800/90'
-        : 'border-slate-300 bg-slate-100',
+        : 'border-slate-300 bg-white',
     ]"
   >
     <!-- Tab -->
@@ -13,7 +13,7 @@
         'flex items-center gap-2 border-b px-3 py-2 transition-colors duration-300',
         isDark
           ? 'border-slate-600/60 bg-slate-700/50'
-          : 'border-slate-200 bg-slate-200/80',
+          : 'border-slate-200 bg-white',
       ]"
     >
       <button
@@ -35,7 +35,7 @@
     <div
       :class="[
         'flex min-h-[72px] items-center px-4 py-3 transition-colors duration-300',
-        isDark ? 'text-slate-200' : 'text-slate-800',
+        isDark ? 'bg-slate-800/90 text-slate-200' : 'bg-white text-slate-800',
       ]"
     >
       <template v-if="isTyping">
@@ -62,7 +62,7 @@
     <div
       :class="[
         'flex items-center gap-3 border-t px-3 py-2 transition-colors duration-300',
-        isDark ? 'border-slate-600/60 text-slate-400' : 'border-slate-200 text-slate-500',
+        isDark ? 'border-slate-600/60 bg-slate-800/90 text-slate-400' : 'border-slate-200 bg-white text-slate-500',
       ]"
     >
       <button

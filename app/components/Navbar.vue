@@ -39,6 +39,7 @@ const { backgroundColor, textColor, borderColor } = useDarkMode()
 const navItems = [
   { label: 'Tasks', to: '/tasks' },
   { label: 'Document AI', to: '/document-ai' },
+  { label: 'Context Demo', to: '/context-demo' },
   { label: 'Stack', to: '/stack' },
   { label: 'About this website', to: '/about' },
 ]
