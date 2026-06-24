@@ -3,7 +3,7 @@
     <!-- Left checkered panel -->
     <Navbar v-show="showNavbar" />
     <button @click="toggleCheckeredSides" v-show="showCheckeredSides" class="">
-        <Icon name="mdi:chevron-left" />Test
+        <Icon name="mdi:chevron-left" />
       </button>
     <div class="grid grid-cols-12 w-full min-h-0 flex-1">
       <Sidebar side="right" v-show="showCheckeredSides" :class="showCheckeredSides ? 'col-span-2' : 'col-span-12'"/>

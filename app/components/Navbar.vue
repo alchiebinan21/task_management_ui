@@ -1,22 +1,44 @@
 <template>
-  <nav :class="`border-b border-${borderColor}-200/60 backdrop-blur-sm transition-colors duration-300 ${backgroundColor}`">
+  <nav :class="['border-b backdrop-blur-sm transition-colors duration-300', borderColor, backgroundColor]">
     <div class="mx-auto flex h-14 w-full items-center justify-around px-4 sm:px-6 lg:px-8">
       <div class="flex items-center gap-10">
         <span
-          @click="setPage('sample')"
-          :class="`cursor-pointer text-lg font-semibold text-${textColor}-700 transition-colors duration-300 ${textColor} `"
+          @click="toggleTasks"
+          :class="[
+            'cursor-pointer text-lg font-semibold transition-colors duration-300',
+            textColor,
+            activeSection === 'tasks' ? 'underline underline-offset-4 decoration-2' : 'opacity-70 hover:opacity-100',
+          ]"
         >
-          Sample
+          Tasks
         </span>
         <span
-          @click="setPage('stack')"
-          :class="`cursor-pointer text-lg font-semibold text-${textColor}-700 transition-colors duration-300 ${textColor} `"
+          @click="toggleRag"
+          :class="[
+            'cursor-pointer text-lg font-semibold transition-colors duration-300',
+            textColor,
+            activeSection === 'rag' ? 'underline underline-offset-4 decoration-2' : 'opacity-70 hover:opacity-100',
+          ]"
+        >
+          Document AI
+        </span>
+        <span
+          @click="toggleStack"
+          :class="[
+            'cursor-pointer text-lg font-semibold transition-colors duration-300',
+            textColor,
+            activeSection === 'stack' ? 'underline underline-offset-4 decoration-2' : 'opacity-70 hover:opacity-100',
+          ]"
         >
           Stack
         </span>
         <span
-          @click="setPage('about')"
-          :class="`cursor-pointer text-lg font-semibold text-${textColor}-700 transition-colors duration-300 ${textColor} `"
+          @click="toggleAbout"
+          :class="[
+            'cursor-pointer text-lg font-semibold transition-colors duration-300',
+            textColor,
+            activeSection === 'about' ? 'underline underline-offset-4 decoration-2' : 'opacity-70 hover:opacity-100',
+          ]"
         >
           About this website
         </span>
@@ -25,7 +47,7 @@
         <DarkModeButton />
         <NuxtLink
           to="/"
-          :class="`text-sm font-medium text-${textColor}-600 transition-colors duration-300 ${textColor} `"
+          :class="['text-sm font-medium transition-colors duration-300', textColor]"
         >
           Home
         </NuxtLink>
@@ -35,10 +57,6 @@
 </template>
 
 <script setup lang="ts">
-const { toggleCheckeredSides } = useLayout()
-
+const { toggleTasks, toggleRag, toggleAbout, toggleStack, activeSection } = useLayout()
 const { backgroundColor, textColor, borderColor } = useDarkMode()
-
-const { setPage } = useNavigation()
-
 </script>

@@ -1,23 +1,28 @@
 <template>
   <div class="flex min-h-[calc(100vh-8rem)] flex-col mx-auto text-slate-800 dark:text-slate-200">
-    <div class="flex-1 space-y-6 px-4 pt-8 pb-4">
-      <Stack v-if="pageActive === 'stack'" :key="pageActive" />
-      <AboutMe v-if="pageActive === 'about'" :key="pageActive" />
-      <Tasks v-if="pageActive === 'sample'" :key="pageActive" />
+    <div id="main-section" class="flex-1 space-y-6 px-4 pt-8 pb-4" :class="textColor">
+      <Stack v-if="showStack" />
+      <AboutMe v-if="showAbout" />
+      <Tasks v-if="showTasks" />
+      <RagDocument v-if="showRag" />
       <div
-        v-if="replyFullText"
+        v-if="replyFullText || chatStore.loading"
         class="rounded-xl border border-slate-300 bg-slate-100 p-4 dark:border-slate-600 dark:bg-slate-800/80"
       >
         <p class="mb-1 text-xs font-medium text-slate-500 dark:text-slate-400">
           Reply
         </p>
         <p class="min-h-[1.25rem] text-slate-800 dark:text-slate-200">
-           
-          {{ replyDisplayed }}
-          <span
-            v-if="isReplyTyping"
-            class="reply-caret ml-0.5 inline-block h-4 w-0.5 align-middle bg-blue-500"
-          />
+          <template v-if="chatStore.loading && !replyDisplayed">
+            Sending…
+          </template>
+          <template v-else>
+            {{ replyDisplayed }}
+            <span
+              v-if="isReplyTyping"
+              class="reply-caret ml-0.5 inline-block h-4 w-0.5 align-middle bg-blue-500"
+            />
+          </template>
         </p>
       </div>
     </div>
@@ -33,9 +38,12 @@
 </template>
 
 <script setup lang="ts">
-const { pageActive } = useNavigation()
+import { useChatStore } from '../../stores/chat'
+import { useLayout } from '../composables/useLayout'
 
-const { setPage } = useNavigation()
+const { textColor } = useDarkMode()
+const { showStack, showAbout, showTasks, showRag } = useLayout()
+const chatStore = useChatStore()
 
 const replyFullText = ref('')
 const replyDisplayed = ref('')
@@ -62,9 +70,17 @@ function startReplyTyping(text: string) {
   }, REPLY_SPEED_MS)
 }
 
-function onSubmit(value: string) {
+async function onSubmit(value: string) {
   if (!value.trim()) return
-  startReplyTyping(value.trim())
+  try {
+    const assistantMsg = await chatStore.sendMessage(value.trim())
+    if (assistantMsg) {
+      startReplyTyping(assistantMsg.content)
+    }
+  } catch {
+    const last = chatStore.lastMessage
+    if (last) startReplyTyping(last.content)
+  }
 }
 
 onUnmounted(() => {

@@ -1,16 +1,53 @@
 import { storeToRefs } from 'pinia'
-import { useLayoutStore } from '../../stores/layout'
+import { useLayoutStore, type LayoutSection } from '../../stores/layout'
 
 export function useLayout() {
   const store = useLayoutStore()
-  const { showCheckeredSides, showNavbar } = storeToRefs(store)
+  const {
+    showCheckeredSides,
+    showNavbar,
+    showTasks,
+    showRag,
+    showAbout,
+    showStack,
+    activeSection,
+  } = storeToRefs(store)
+
+  function setSection(section: LayoutSection) {
+    store.setSection(section)
+    if (import.meta.client) {
+      nextTick(() => {
+        document.getElementById('main-section')?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+      })
+    }
+  }
 
   return {
     showCheckeredSides,
     showNavbar,
+    showTasks,
+    showRag,
+    showAbout,
+    showStack,
+    activeSection,
+    setSection,
+    toggleTasks: () => setSection('tasks'),
+    toggleRag: () => setSection('rag'),
+    toggleAbout: () => setSection('about'),
+    toggleStack: () => setSection('stack'),
     toggleCheckeredSides: () => store.toggleCheckeredSides(),
     toggleNavbar: () => store.toggleNavbar(),
-    setCheckeredSides: (value: boolean) => store.setCheckeredSides(value),
-    setNavbar: (value: boolean) => store.setNavbar(value),
+  }
+}
+
+// Prevent stale persisted layout state from breaking section navigation.
+if (import.meta.client) {
+  try {
+    const raw = localStorage.getItem('layout')
+    if (raw && !raw.includes('activeSection')) {
+      localStorage.removeItem('layout')
+    }
+  } catch {
+    // ignore
   }
 }
