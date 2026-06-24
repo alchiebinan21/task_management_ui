@@ -1,5 +1,5 @@
 <template>
-  <PageWithChat>
+  <PageWithChat :show-chat="false">
     <AboutMe />
   </PageWithChat>
 </template>

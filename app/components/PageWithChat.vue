@@ -3,7 +3,7 @@
     <div id="main-section" class="flex-1 space-y-6 px-4 pt-8 pb-4" :class="textColor">
       <slot />
       <div
-        v-if="replyFullText || isReplyLoading"
+        v-if="showChat && (replyFullText || isReplyLoading)"
         class="rounded-xl border border-slate-300 bg-slate-100 p-4 dark:border-slate-600 dark:bg-slate-800/80"
       >
         <p class="mb-1 text-xs font-medium text-slate-500 dark:text-slate-400">
@@ -23,7 +23,7 @@
         </p>
       </div>
     </div>
-    <div class="px-4 pb-8 pt-4 w-full max-w-4xl mx-auto">
+    <div v-if="showChat" class="px-4 pb-8 pt-4 w-full max-w-4xl mx-auto">
       <CursorStyleInput
         :typing-text="inputHint"
         :placeholder="inputHint"
@@ -37,9 +37,13 @@
 <script setup lang="ts">
 import type { PageChatMode } from '../composables/usePageChat'
 
-const props = defineProps<{
-  chatMode?: PageChatMode
-}>()
+const props = withDefaults(
+  defineProps<{
+    chatMode?: PageChatMode
+    showChat?: boolean
+  }>(),
+  { showChat: true },
+)
 
 const { textColor } = useDarkMode()
 const {
